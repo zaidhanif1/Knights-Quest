@@ -10,6 +10,16 @@ std::optional<sf::FloatRect> Collision::getIntersection(const GameObject& entity
     return entityBounds.findIntersection(platformBounds);
 }
 
+
+std::optional<sf::FloatRect> Collision::getIntersection(const GameObject& a, const GameObject& b)
+{
+    sf::FloatRect a_bounds = a.getGlobalBounds();
+    sf::FloatRect b_bounds = b.getGlobalBounds();
+    
+    return a_bounds.findIntersection(b_bounds);
+
+}
+
 void Collision::handleCollision(GameObject& entity, const Platform& platform) 
 {
     std::optional<sf::FloatRect> intersection = getIntersection(entity, platform);
@@ -61,6 +71,74 @@ void Collision::handleCollision(GameObject& entity, const Platform& platform)
                 sf::Vector2f(entityPos.x, entityPos.y + overlap.size.y)
             );
             entity.velocity.y = 0;
+        }
+    }
+}
+void Collision::handleCollision(GameObject& a, GameObject& b) 
+{
+    std::optional<sf::FloatRect> intersection = getIntersection(a, b);
+    
+    if (!intersection.has_value()) 
+    {
+        return;
+    }
+    
+    sf::FloatRect overlap = intersection.value();
+
+    sf::Vector2f a_pos = a.getPosition();
+    sf::FloatRect a_bounds = a.getGlobalBounds();
+    sf::Vector2f b_pos = b.getPosition();
+    sf::FloatRect b_bounds = a.getGlobalBounds();
+    
+    if (overlap.size.x < overlap.size.y) 
+    {
+        // Horizontal collision (left/right)
+        if (a_pos.x < b_pos.x) 
+        {
+            a.setPosition(
+                sf::Vector2f(a_pos.x - overlap.size.x, a_pos.y)
+            );
+            b.setPosition(
+                sf::Vector2f(b_pos.x + overlap.size.x, b_pos.y)
+            );
+        } 
+        else 
+        {
+            b.setPosition(
+                sf::Vector2f(b_pos.x + overlap.size.x, b_pos.y)
+            );
+            a.setPosition(
+                sf::Vector2f(a_pos.x - overlap.size.x, a_pos.y)
+            );
+        }
+        a.velocity.x = 0;
+        b.velocity.x = 0;
+    } 
+    else 
+    {
+        // Vertical collision (top/bottom)
+        if (a_pos.y < b_pos.y) 
+        {
+            // a landed on top
+            a.setPosition(
+                sf::Vector2f(a_pos.x, a_pos.y - overlap.size.y) //above
+            );
+            b.setPosition(
+                sf::Vector2f(b_pos.x, b_pos.y + overlap.size.y) //below
+            );
+            a.velocity.y = 0;
+        } 
+        else 
+        {
+            //and collided with b from the bottom 
+            a.setPosition(
+                sf::Vector2f(a_pos.x, a_pos.y + overlap.size.y) //offset b DOWN
+            );
+            b.setPosition(
+                sf::Vector2f(b_pos.x, b_pos.y - overlap.size.y) //offset b UP
+            );
+            a.velocity.y = 0;
+            b.velocity.y = 0;
         }
     }
 }

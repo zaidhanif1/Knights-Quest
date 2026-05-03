@@ -86,6 +86,14 @@ int main()
                 collisionHandler.handleCollision(*entity, platform);
             }
         }
+
+        for (int i = 0; i < entities.size(); i++)
+        {
+            for (int j = i + 1; j < entities.size(); j++)
+            {
+                collisionHandler.handleCollision(*entities[i], *entities[j]);
+            }   
+        }
         
         // Boundary clamping (Player-specific for now)
         sf::Vector2f playerPos = player->getPosition();
