@@ -11,25 +11,9 @@ enum class EnemyType
 };
 
 
-// struct Dragon
-// {
-//     sf::Vector2f position;
-//     sf::Vector2f velocity;
-//     Animation idle;
-//     Animation walk;
-//     Animation attack;
-//     Animation death;
-//     sf::Vector2u frameSize;
-//     Animation* current;
-//     EnemyState state;
-//     bool onGround;
-    
-// };
-
-
 
 class Enemy : public GameObject
 {
     public:
-        Enemy(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size, sf::Vector2f hit_box_dimensions);
+        Enemy(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size);
 };

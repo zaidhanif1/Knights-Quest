@@ -10,8 +10,8 @@ public:
     Animation();
 
     bool loadFromFile(const std::string& filename, 
-                      const sf::Vector2f& frameSize, 
-                      unsigned int frameCount,
+                      const sf::Vector2f& frame_size, 
+                      unsigned int frame_count,
                       float fps,
                       sf::Vector2f position);
 

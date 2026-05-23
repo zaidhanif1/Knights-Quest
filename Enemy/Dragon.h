@@ -14,10 +14,17 @@ enum class DragonState
     DRAGON_ATTACK, 
     DRAGON_DEATH
 };
+
+namespace DragonHitBox
+{
+    constexpr sf::Vector2f hitBoxDimensions{100.f, 64.f};
+    constexpr sf::Vector2f hitBoxOffset{10.f, 32.f};
+};
+
 class Dragon : public Enemy
 {
     public:
-        Dragon(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size, sf::Vector2f hit_box_dimensions);
+        Dragon(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size);
 
         std::string base_path = "assets/Enemies/dragon/";
         DragonState dragon_state;
@@ -26,6 +33,8 @@ class Dragon : public Enemy
         void draw(sf::RenderWindow& window) override;
         void onLateUpdate(float delta_time) override;
         void setPosition(const sf::Vector2f& pos) override;
+        sf::FloatRect getGlobalBounds() const override;
+        
         
         Animation dragon_attack;
         Animation dragon_idle;

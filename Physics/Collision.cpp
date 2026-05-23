@@ -2,7 +2,7 @@
 #include "Collision.h"
 
 
-std::optional<sf::FloatRect> Collision::getIntersection(const GameObject& entity, const Platform& platform) 
+std::optional<sf::FloatRect> Collision::getIntersection( GameObject& entity,  Platform& platform) 
 {
     sf::FloatRect entityBounds = entity.getGlobalBounds();
     sf::FloatRect platformBounds = platform.shape.getGlobalBounds();
@@ -11,7 +11,7 @@ std::optional<sf::FloatRect> Collision::getIntersection(const GameObject& entity
 }
 
 
-std::optional<sf::FloatRect> Collision::getIntersection(const GameObject& a, const GameObject& b)
+std::optional<sf::FloatRect> Collision::getIntersection( GameObject& a,  GameObject& b)
 {
     sf::FloatRect a_bounds = a.getGlobalBounds();
     sf::FloatRect b_bounds = b.getGlobalBounds();
@@ -20,7 +20,7 @@ std::optional<sf::FloatRect> Collision::getIntersection(const GameObject& a, con
 
 }
 
-void Collision::handleCollision(GameObject& entity, const Platform& platform) 
+void Collision::handleCollision(GameObject& entity,  Platform& platform) 
 {
     std::optional<sf::FloatRect> intersection = getIntersection(entity, platform);
     
@@ -88,7 +88,7 @@ void Collision::handleCollision(GameObject& a, GameObject& b)
     sf::Vector2f a_pos = a.getPosition();
     sf::FloatRect a_bounds = a.getGlobalBounds();
     sf::Vector2f b_pos = b.getPosition();
-    sf::FloatRect b_bounds = a.getGlobalBounds();
+    sf::FloatRect b_bounds = b.getGlobalBounds();
     
     if (overlap.size.x < overlap.size.y) 
     {
@@ -104,11 +104,11 @@ void Collision::handleCollision(GameObject& a, GameObject& b)
         } 
         else 
         {
-            b.setPosition(
-                sf::Vector2f(b_pos.x + overlap.size.x, b_pos.y)
-            );
             a.setPosition(
-                sf::Vector2f(a_pos.x - overlap.size.x, a_pos.y)
+                sf::Vector2f(a_pos.x + overlap.size.x, a_pos.y)
+            );
+            b.setPosition(
+                sf::Vector2f(b_pos.x - overlap.size.x, b_pos.y)
             );
         }
         a.velocity.x = 0;
@@ -122,9 +122,6 @@ void Collision::handleCollision(GameObject& a, GameObject& b)
             // a landed on top
             a.setPosition(
                 sf::Vector2f(a_pos.x, a_pos.y - overlap.size.y) //above
-            );
-            b.setPosition(
-                sf::Vector2f(b_pos.x, b_pos.y + overlap.size.y) //below
             );
             a.velocity.y = 0;
         } 

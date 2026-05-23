@@ -7,7 +7,7 @@
 class GameObject
 {
     public:
-        GameObject(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f framesize, sf::Vector2f hit_box_dimensions);
+        GameObject(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f framesize);
         virtual ~GameObject() = default;
 
         sf::Vector2f position;

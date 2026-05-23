@@ -12,12 +12,17 @@ enum class PlayerState
     JUMP,  ///< Player is jumping or in the air
 };
 
+namespace PlayerHitBox
+{
+    constexpr sf::Vector2f hitBoxDimensions{20, 40};
+    constexpr sf::Vector2f hitBoxOffset{0.f, 5.f};
+};
 
 class Player : public GameObject
 {
 public:
     
-    Player(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size, sf::Vector2f hit_box_dimensions);
+    Player(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size);
     ~Player() = default;
     
     Animation idleAnimation;

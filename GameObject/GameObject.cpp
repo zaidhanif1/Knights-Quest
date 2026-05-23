@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f framesize, sf::Vector2f hit_box_dimensions)
+GameObject::GameObject(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f framesize)
 {   
     this->position = position;
     this->velocity = velocity;
@@ -60,10 +60,10 @@ void GameObject::setPosition(const sf::Vector2f& pos)
     position = pos;
 }
 
-sf::FloatRect GameObject::getGlobalBounds() const
+sf::FloatRect GameObject::getGlobalBounds() const 
 {
     return sf::FloatRect(
         sf::Vector2f(position.x - (hit_box_dimensions.x / 2.0f), position.y - (hit_box_dimensions.y / 2.0f)),
-        sf::Vector2f(hit_box_dimensions.x, hit_box_dimensions.y)
+        hit_box_dimensions
     );
 }

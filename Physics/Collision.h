@@ -15,10 +15,10 @@
 class Collision 
 {
 public:
-    std::optional<sf::FloatRect> getIntersection(const GameObject& entity, const Platform& platform);
-    void handleCollision(GameObject& entity, const Platform& platform);
+    std::optional<sf::FloatRect> getIntersection( GameObject& entity,  Platform& platform);
+    void handleCollision(GameObject& entity,  Platform& platform);
 
     //overloaded for two GameObject parameters. it is sloppy but works for now. 
-    std::optional<sf::FloatRect> getIntersection(const GameObject& a, const GameObject& b);
+    std::optional<sf::FloatRect> getIntersection( GameObject& a,  GameObject& b);
     void handleCollision(GameObject& a, GameObject& b);
 };

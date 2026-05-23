@@ -14,8 +14,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(sf::Vector2u(800, 600)), "SFML Game");
     window.setFramerateLimit(60);
 
-    Player* player = new Player({1, 1}, {1,1}, {96,70}, {20,40});
-    Dragon* dragon = new Dragon({150, 150}, {1,1}, {256,256}, {100,100});
+    Player* player = new Player({1, 1}, {1,1}, {96,70});
+    Dragon* dragon = new Dragon({150, 150}, {1,1}, {256.f, 256.f});
+
     if (!player->load_all_animations()) 
     {
         std::cerr << "Failed to load player animations!" << std::endl;
@@ -95,7 +96,10 @@ int main()
             }   
         }
         
+        
+
         // Boundary clamping (Player-specific for now)
+        //TODO: MOVE INTO UPDATE LOGIC
         sf::Vector2f playerPos = player->getPosition();
         if (playerPos.x < 0) 
         {
@@ -106,12 +110,23 @@ int main()
             player->setPosition(sf::Vector2f(800, playerPos.y));
         }
 
+
         // Late update (post-collision: animation state, etc.)
         for (auto* entity : entities)
         {
             entity->lateUpdate(deltaTime);
         }
-        
+        sf::FloatRect bounds = dragon->getGlobalBounds();
+
+        sf::RectangleShape hitbox;
+
+
+        hitbox.setPosition(bounds.position);
+        hitbox.setSize(bounds.size);
+        hitbox.setFillColor(sf::Color::Transparent);
+        hitbox.setOutlineColor(sf::Color::Red);
+        hitbox.setOutlineThickness(1.f);
+
         // Render
         window.clear(sf::Color(135, 206, 235));
         
@@ -124,6 +139,7 @@ int main()
         {
             entity->draw(window);
         }
+        window.draw(hitbox);
         
         window.display();
     }

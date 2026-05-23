@@ -2,9 +2,9 @@
 #include <iostream>
 #include <cmath>
 
-Player::Player(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size, sf::Vector2f hit_box_dimensions) 
+Player::Player(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2f frame_size) 
     :
-GameObject(position, velocity, frame_size, hit_box_dimensions)
+GameObject(position, velocity, frame_size)
     {
         this->player_facing_right = true;
         this->currentState = PlayerState::IDLE;
@@ -139,8 +139,10 @@ sf::FloatRect Player::getGlobalBounds() const
     // We offset the Y slightly toward the bottom since feet should be the reference point
     return sf::FloatRect
     (
-        sf::Vector2f(position.x - (hit_box_dimensions.x / 2.0f), position.y - (hit_box_dimensions.y / 2.0f) + 5.0f),
-        sf::Vector2f(static_cast<float>(hit_box_dimensions.x), static_cast<float>(hit_box_dimensions.y))
+        sf::Vector2f(
+            position.x - (PlayerHitBox::hitBoxDimensions.x / 2.0f) + PlayerHitBox::hitBoxOffset.x, 
+            position.y - (PlayerHitBox::hitBoxDimensions.y / 2.0f) + PlayerHitBox::hitBoxOffset.y),
+        PlayerHitBox::hitBoxDimensions
     );
 }
 
