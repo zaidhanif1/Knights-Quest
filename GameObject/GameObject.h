@@ -29,8 +29,9 @@ class GameObject
 
     protected:
         //player class overrides
-        virtual void onUpdate(float delta_time);
-        virtual void onLateUpdate(float delta_time);
+        virtual void onUpdate(float delta_time); //sync object visuals after movement
+        virtual void onLateUpdate(float delta_time); //make final decisions after collisions and other objects may have affected state
+        virtual void handleInput();
 };
 
 #endif // GAMEOBJECT_H

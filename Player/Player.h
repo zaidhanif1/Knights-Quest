@@ -54,4 +54,5 @@ private:
     void setAnimation(PlayerState newState);
     void updateAnimationState();
     void updateAnimation(float deltaTime);
+    void handleInput() override;
 };

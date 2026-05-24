@@ -74,6 +74,35 @@ void Dragon::updateDragonAnimationState()
     setDragonAnimationState(currstate);
 }
 
+void Dragon::updateDragonState(const Player& player)
+{
+    float distanceToPlayer = std::abs(player.position.x - position.x);
+
+    if (distanceToPlayer <= 200.f)
+    {
+        dragon_state = DragonState::DRAGON_ATTACK;
+        velocity.x = 0.f;
+    }
+    else if (distanceToPlayer <= 300.f)
+    {
+        dragon_state = DragonState::DRAGON_WALK;
+
+        if (player.position.x < position.x)
+        {
+            velocity.x = -100.f;
+        }
+        else
+        {
+            velocity.x = 100.f;
+        }
+    }
+    else
+    {
+        dragon_state = DragonState::DRAGON_IDLE;
+        velocity.x = 0.f;
+    }
+}
+
 void Dragon::updateAnimation(float delta_time)
 {
     if (curr_animation)

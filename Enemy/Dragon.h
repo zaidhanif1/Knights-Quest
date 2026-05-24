@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Window.hpp>
 #include "Enemy.h"
+#include "Player.h"
 #include "../GameObject/GameObject.h"
 #include "../Animation/Animation.h"
 
@@ -33,6 +34,7 @@ class Dragon : public Enemy
         void draw(sf::RenderWindow& window) override;
         void onLateUpdate(float delta_time) override;
         void setPosition(const sf::Vector2f& pos) override;
+        void updateDragonState(const Player& player);
         sf::FloatRect getGlobalBounds() const override;
         
         

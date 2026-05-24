@@ -30,11 +30,12 @@ int main()
         return -1;
     }
     
-    
+    /** Create GameObject vector */
     std::vector<GameObject*> entities;
     entities.push_back(player);
     entities.push_back(dragon);
 
+    /** Create platforms  */
     std::vector<Platform> platforms;
     Platform::createPlatforms(platforms);
     
@@ -52,34 +53,15 @@ int main()
                 window.close();
             }
         }
+        dragon->updateDragonState(*player);
         
-        // Input (Player-specific)
-        player->velocity.x = 0;
-        
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) || 
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) 
-        {
-            player->velocity.x = -player->RUN_SPEED; 
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) || 
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) 
-        {
-            player->velocity.x = player->RUN_SPEED;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) || 
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) ||
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) 
-        {
-            player->jump();
-        }
-        
-        // Update all entities (physics + onUpdate)
+        /** Update all entities (physics + onUpdate) */
         for (auto* entity : entities)
         {
             entity->update(deltaTime);
         }
         
-        // Collision (any entity vs platforms)
+        /** Collision (any entity vs platforms) */
         for (auto* entity : entities)
         {
             for (auto& platform : platforms)
@@ -88,6 +70,7 @@ int main()
             }
         }
 
+        /** More collisions (any entity vs entity) */
         for (int i = 0; i < entities.size(); i++)
         {
             for (int j = i + 1; j < entities.size(); j++)
@@ -96,38 +79,13 @@ int main()
             }   
         }
         
-        
-
-        // Boundary clamping (Player-specific for now)
-        //TODO: MOVE INTO UPDATE LOGIC
-        sf::Vector2f playerPos = player->getPosition();
-        if (playerPos.x < 0) 
-        {
-            player->setPosition(sf::Vector2f(0, playerPos.y));
-        }
-        if (playerPos.x > 800) 
-        {
-            player->setPosition(sf::Vector2f(800, playerPos.y));
-        }
-
-
-        // Late update (post-collision: animation state, etc.)
+        /**  Late update (post-collision: animation state, etc.) */
         for (auto* entity : entities)
         {
             entity->lateUpdate(deltaTime);
         }
-        sf::FloatRect bounds = dragon->getGlobalBounds();
 
-        sf::RectangleShape hitbox;
-
-
-        hitbox.setPosition(bounds.position);
-        hitbox.setSize(bounds.size);
-        hitbox.setFillColor(sf::Color::Transparent);
-        hitbox.setOutlineColor(sf::Color::Red);
-        hitbox.setOutlineThickness(1.f);
-
-        // Render
+        /** Render everything */ 
         window.clear(sf::Color(135, 206, 235));
         
         for (auto& platform : platforms)
@@ -139,7 +97,6 @@ int main()
         {
             entity->draw(window);
         }
-        window.draw(hitbox);
         
         window.display();
     }

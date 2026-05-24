@@ -12,6 +12,7 @@ GameObject::GameObject(sf::Vector2f position, sf::Vector2f velocity, sf::Vector2
 
 void GameObject::update(float delta_time)
 {
+    handleInput();
     if (!onGround) 
     {
         velocity.y += GRAVITY * delta_time;
@@ -26,6 +27,14 @@ void GameObject::update(float delta_time)
     else if (velocity.x < -0.1f) 
     {
         facing_right = false;
+    }
+    if (position.x < 0) 
+    {
+        setPosition(sf::Vector2f(0, position.y));
+    }
+    if (position.x > 800) 
+    {
+        setPosition(sf::Vector2f(800, position.y));
     }
     
     onGround = false;
@@ -43,6 +52,10 @@ void GameObject::lateUpdate(float delta_time)
 }
 
 void GameObject::onLateUpdate(float delta_time)
+{
+}
+
+void GameObject::handleInput()
 {
 }
 

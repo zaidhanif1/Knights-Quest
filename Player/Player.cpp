@@ -41,12 +41,14 @@ void Player::onUpdate(float delta_time)
             runAnimation.setScale(scale);
             jumpAnimation.setScale(scale);
         }
+        
         player_facing_right = facing_right;
         
         idleAnimation.setPosition(position);
         walkAnimation.setPosition(position);
         runAnimation.setPosition(position);
         jumpAnimation.setPosition(position);
+
     }
 
 
@@ -86,6 +88,27 @@ void Player::updateAnimation(float delta_time)
     if (currentAnimation) 
     {
         currentAnimation->update(delta_time);
+    }
+}
+
+void Player::handleInput()
+{
+    velocity.x = 0;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) || 
+        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) 
+    {
+        velocity.x = -RUN_SPEED; 
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D) || 
+        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) 
+    {
+        velocity.x = RUN_SPEED;
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) || 
+        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W) ||
+        sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) 
+    {
+        jump();
     }
 }
 
