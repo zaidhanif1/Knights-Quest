@@ -1,11 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Window.hpp>
 #include "Enemy.h"
-#include "Player.h"
+#include "../Player/Player.h"
 #include "../GameObject/GameObject.h"
 #include "../Animation/Animation.h"
 
 #define DRAGON_IDLE_FRAME_COUNT 3
+#define DRAGON_DEATH_FRAME_COUNT 5
+#define DRAGON_WALK_FRAME_COUNT 5
+#define DRAGON_ATTACK_FRAME_COUNT 4
+
 
 enum class DragonState
 {
@@ -40,7 +44,7 @@ class Dragon : public Enemy
         
         Animation dragon_attack;
         Animation dragon_idle;
-        Animation dragon_run;
+        Animation dragon_walk;
         Animation dragon_death;
         Animation* curr_animation;
         
@@ -50,6 +54,5 @@ class Dragon : public Enemy
     private:
         void updateAnimation(float delta_time);
         void setDragonAnimationState(DragonState state);
-        void updateDragonAnimationState();
 
 };

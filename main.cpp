@@ -15,7 +15,7 @@ int main()
     window.setFramerateLimit(60);
 
     Player* player = new Player({1, 1}, {1,1}, {96,70});
-    Dragon* dragon = new Dragon({150, 150}, {1,1}, {256.f, 256.f});
+    Dragon* dragon = new Dragon({700, 150}, {1,1}, {256.f, 256.f});
 
     if (!player->load_all_animations()) 
     {
@@ -53,6 +53,8 @@ int main()
                 window.close();
             }
         }
+
+        /** DRAGON FSM */
         dragon->updateDragonState(*player);
         
         /** Update all entities (physics + onUpdate) */
@@ -69,7 +71,7 @@ int main()
                 collisionHandler.handleCollision(*entity, platform);
             }
         }
-
+        
         /** More collisions (any entity vs entity) */
         for (int i = 0; i < entities.size(); i++)
         {
@@ -79,6 +81,8 @@ int main()
             }   
         }
         
+
+
         /**  Late update (post-collision: animation state, etc.) */
         for (auto* entity : entities)
         {
